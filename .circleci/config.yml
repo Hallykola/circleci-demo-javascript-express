@@ -29,6 +29,11 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: cat ~/output.txt
+      - run: return 1
+      - run:
+          name: Testy
+          command: echo "Were ti fail sha"
+          when: on_fail
   build:
     working_directory: ~/mern-starter
     docker:
