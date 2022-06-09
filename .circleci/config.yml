@@ -16,19 +16,19 @@ jobs:
       - image: circleci/node:10.16.3
     steps:
       - run: mkdir -p workspace
-      - run: echo "say yaay" >> workspace/output.txt
+      - run: echo "say yaay" > ~/output.txt
       - persist_to_workspace:
-          root: workspace
+          root: ~/
           paths:
-            - output
+            - output.txt
 
   assignmentb:
     docker:
       - image: circleci/node:10.16.3
     steps:
       - attach_workspace:
-          at: workspace
-      - run: cat workspace/output.txt
+          at: ~/
+      - run: cat ~/output.txt
   build:
     working_directory: ~/mern-starter
     docker:
