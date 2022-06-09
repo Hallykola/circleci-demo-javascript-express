@@ -15,6 +15,7 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     steps:
+      - run: mkdir -p workspace
       - run: echo "say yaay" >> workspace/output.txt
       - persist_to_workspace:
           root: workspace
