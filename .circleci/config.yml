@@ -5,8 +5,29 @@ workflows:
   build:
     jobs:
       - build
+      - assignmenta
+      - assignmentb:
+          requires:
+            - assignmenta
 
 jobs:
+  assignmenta:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - run: echo "say yaay" >> workspace/output.txt
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - output
+
+  assignmentb:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - attach_workspace:
+          at: workspace
+      - run: cat workspace/output.txt
   build:
     working_directory: ~/mern-starter
     docker:
