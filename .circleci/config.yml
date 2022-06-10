@@ -9,8 +9,45 @@ workflows:
       - assignmentb:
           requires:
             - assignmenta
+      - compile
+      - test:
+          requires:
+            - compile
+      - analyze:
+          requires:
+            - test
+
+# default: &default
+
+commands:
+  getDependenciesnBuild:
+    description: "Get Basic Dependencies and build"
+    steps:
+      - checkout
+      - run: npm install
 
 jobs:
+
+  compile:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - getDependenciesnBuild
+
+  test:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - getDependenciesnBuild
+      - run: npm run lint
+  analyze:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - getDependenciesnBuild
+      - run: npm audit
+
+
   assignmenta:
     docker:
       - image: circleci/node:10.16.3
